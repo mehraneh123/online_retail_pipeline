@@ -80,8 +80,8 @@ Transformation 4: Remove Duplicates
 
 - Rule: Remove completely duplicate rows
 - Method: "drop_duplicates()"
-- Rows Removed: 2,500
-- Impact: 0.46% of data removed
+- Rows Removed: 5,268
+- Impact: 0.97% of data removed
 
 Transformation 5: Handle Missing Descriptions
 
@@ -259,6 +259,6 @@ Final Cleaned Dataset (539,409 rows, 21 columns)
 - Feature Engineer: 'scripts/feature_engineering.py'
 - Main Pipeline: 'scripts/main.py'
 
-Document Version: 1.0
-Last Updated: 17/02/2026
+Document Version: 2.0
+Last Updated: 18/02/2026
 Author: Mehraneh Hamedani

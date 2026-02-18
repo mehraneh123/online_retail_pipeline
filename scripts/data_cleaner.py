@@ -187,32 +187,37 @@ class DataCleaner:
 
     def standardize_dates(self):
         """Standardize text column"""
-        if 'InvoiceDate' in self.df.columns:
-            try:
-                # Change to datetime
-                self.df['InvoiceDate'] = pd.to_datetime(
-                    self.df['InvoiceDate'],
-                    infer_datetime_format=True,  # Tried to identify format
-                    errors='coerce'
-                )
 
-                # Extract time features
-                self.df['Year'] = self.df['InvoiceDate'].dt.year
-                self.df['Month'] = self.df['InvoiceDate'].dt.month
-                self.df['Day'] = self.df['InvoiceDate'].dt.day
-                self.df['Hour'] = self.df['InvoiceDate'].dt.hour
-                self.df['DayOfWeek'] = self.df['InvoiceDate'].dt.day_name()
-                self.df['Weekday'] = self.df['InvoiceDate'].dt.weekday  # 0=Monday
 
-                self.transformation_rules.append({
-                    'rule': 'Standardize dates and extract features',
-                    'description': 'Added Year, Month, Day, Hour, DayOfWeek columns'
-                })
+        if 'InvoiceDate' not in self.df.columns:
+            print("   ❌ InvoiceDate column doesn't exist")
+            return self.df
 
-                print(f"   - Column InvoiceDate transformed to datetime and extracted time features")
+        try:
+            # transform to datetime
+            self.df['InvoiceDate'] = pd.to_datetime(
+                self.df['InvoiceDate'],
+                format='%d/%m/%Y %H:%M',  # Tried to identify format
+                errors='coerce'
+            )
 
-            except Exception as e:
-                print(f"   Error to transform date: {e}")
+            # Extract time features
+            self.df['Year'] = self.df['InvoiceDate'].dt.year
+            self.df['Month'] = self.df['InvoiceDate'].dt.month
+            self.df['Day'] = self.df['InvoiceDate'].dt.day
+            self.df['Hour'] = self.df['InvoiceDate'].dt.hour
+            self.df['DayOfWeek'] = self.df['InvoiceDate'].dt.day_name()
+            self.df['Weekday'] = self.df['InvoiceDate'].dt.weekday  # 0=Monday
+
+            self.transformation_rules.append({
+                'rule': 'Standardize dates and extract features',
+                'description': 'Added Year, Month, Day, Hour, DayOfWeek columns'
+            })
+
+            print(f"   - Column InvoiceDate transformed to datetime and extracted time features")
+
+        except Exception as e:
+            print(f"   Error to transform date: {e}")
 
     def calculate_total_price(self):
         """Calculate TotalPrice = Quantity × UnitPrice"""

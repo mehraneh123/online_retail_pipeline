@@ -30,6 +30,9 @@ class FeatureEngineer:
 
     def create_season(self):
         """Create season based on months"""
+
+        # print("   🔵 create_season is running...")
+
         if 'Month' in self.df.columns:
             season_map = {
                 12: 'Winter', 1: 'Winter', 2: 'Winter',
@@ -39,6 +42,10 @@ class FeatureEngineer:
             }
             self.df['Season'] = self.df['Month'].map(season_map)
             self.features_added.append('Season')
+
+            # print(f"   ✅ Season is made: {self.df['Season'].dropna().unique()}")  # این خط را اضافه کن
+        else:
+            print("   ❌ Month doesn't exist!")
 
     def create_transaction_type(self):
         """Transaction type: Sale, Return, Canceled"""
